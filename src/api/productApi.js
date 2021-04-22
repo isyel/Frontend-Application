@@ -14,7 +14,7 @@ export function getTrl() {
 }
 
 export function saveProduct(product) {
-	return fetch(baseUrl + (product.id || ""), {
+	return fetch(baseUrl + "product/6781/", {
 		method: "PUT",
 		headers: { "content-type": "application/json" },
 		body: JSON.stringify(product),

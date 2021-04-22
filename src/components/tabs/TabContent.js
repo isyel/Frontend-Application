@@ -1,15 +1,17 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
+import { saveProduct } from "../../redux/actions/productActions";
 import "./TabContent.css";
 
-function TabContent({
-	description,
-	trl,
-	businessModel,
-	categories,
-	configuration,
-}) {
+function TabContent({ product, saveProduct, trl, configuration }) {
 	const [isAttributeTab, setIsAttributeTab] = useState(false);
+
+	const handleDescriptionChange = (event) => {
+		product.description = event?.target.innerText;
+		saveProduct(product).catch((error) => {
+			console.log("Saving product failed", error);
+		});
+	};
 
 	return (
 		<div className="description">
@@ -36,12 +38,21 @@ function TabContent({
 				</div>
 			</div>
 			<div className="description__attribute">
-				{!isAttributeTab && <div>{description}</div>}
+				{!isAttributeTab && (
+					<div>
+						<div
+							contentEditable={true}
+							suppressContentEditableWarning={true}
+							onBlur={handleDescriptionChange}>
+							{product.description}
+						</div>
+					</div>
+				)}
 				{isAttributeTab && trl && (
 					<>
 						<strong>Categories</strong>
 						<ul className="description__attribute__list">
-							{categories?.map((category, index) => (
+							{product.categories?.map((category, index) => (
 								<li className="description__attribute__list__item" key={index}>
 									{category.name}
 								</li>
@@ -49,7 +60,7 @@ function TabContent({
 						</ul>
 						<strong>Business Model</strong>
 						<ul className="description__attribute__list">
-							{businessModel?.map((singleBusinessModel, index) => (
+							{product.businessModels?.map((singleBusinessModel, index) => (
 								<li className="description__attribute__list__item" key={index}>
 									{singleBusinessModel.name}
 								</li>
@@ -73,7 +84,12 @@ function TabContent({
 function mapStateToProps(state) {
 	return {
 		configuration: state.configuration,
+		product: state.product,
 	};
 }
 
-export default connect(mapStateToProps)(TabContent);
+const mapDispatchToProps = {
+	saveProduct,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(TabContent);

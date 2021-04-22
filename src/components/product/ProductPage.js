@@ -65,14 +65,7 @@ function ProductPage({
 						</span>
 					))}
 				</div>
-				{trl && (
-					<TabContent
-						description={product.description}
-						trl={trl}
-						categories={product.categories}
-						businessModel={product.businessModels}
-					/>
-				)}
+				{trl && <TabContent trl={trl} />}
 			</div>
 			<div className="product__user-details">
 				{configuration.hasUserSection && (
