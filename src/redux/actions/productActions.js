@@ -13,16 +13,8 @@ export function addCategorySuccess(newCategory) {
 	return { type: types.ADD_CATEGORY, newCategory };
 }
 
-export function updateCategorySuccess(category) {
-	return { type: types.UPDATE_CATEGORY, category };
-}
-
 export function addBusinessModelSuccess(newBusinessModel) {
 	return { type: types.ADD_BUSINESSMODEL, newBusinessModel };
-}
-
-export function updatedBusinessModel(businessModel) {
-	return { type: types.UPDATE_BUSINESSMODEL, businessModel };
 }
 
 export function getProduct() {
@@ -55,18 +47,6 @@ export function addCategories(newCategory) {
 	return (dispatch) => dispatch(addCategorySuccess(newCategory));
 }
 
-export function saveCategory(category) {
-	return function (dispatch) {
-		return dispatch(updateCategorySuccess(category));
-	};
-}
-
 export function addBusinessModel(newBusinessModel) {
 	return (dispatch) => dispatch(addBusinessModelSuccess(newBusinessModel));
-}
-
-export function saveBusinessModel(businessModel) {
-	return function (dispatch) {
-		return dispatch(updatedBusinessModel(businessModel));
-	};
 }

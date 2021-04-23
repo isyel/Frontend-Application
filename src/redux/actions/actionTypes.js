@@ -5,6 +5,4 @@ export const GET_TRL = "GET_TRL";
 export const UPDATE_TRL = "UPDATE_TRL";
 export const ADD_TRL = "ADD_TRL";
 export const ADD_CATEGORY = "ADD_CATEGORY";
-export const UPDATE_CATEGORY = "UPDATE_CATEGORY";
 export const ADD_BUSINESSMODEL = "ADD_BUSINESSMODEL";
-export const UPDATE_BUSINESSMODEL = "UPDATE_BUSINESSMODEL";

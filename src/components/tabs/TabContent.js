@@ -4,8 +4,6 @@ import {
 	saveProduct,
 	addCategories,
 	addBusinessModel,
-	saveBusinessModel,
-	saveCategory,
 } from "../../redux/actions/productActions";
 import { addTrl } from "../../redux/actions/trlActions";
 import "./TabContent.css";
@@ -20,10 +18,8 @@ function TabContent({
 	product,
 	saveProduct,
 	addTrl,
-	saveCategory,
 	addCategories,
 	addBusinessModel,
-	saveBusinessModel,
 	trl,
 	configuration,
 }) {
@@ -37,18 +33,31 @@ function TabContent({
 	};
 
 	const handleCategoryChange = (event, category) => {
-		if (event?.target.innerText === "") return;
-		const updatedCategory = { ...category, name: event?.target.innerText };
-		saveCategory(updatedCategory);
+		const updatedProduct = {
+			...product,
+			categories: product.categories.map((categoryItem) =>
+				category.id === categoryItem.id
+					? { id: category.id, name: event?.target.innerText }
+					: categoryItem
+			),
+		};
+		saveProduct(updatedProduct).catch((error) => {
+			console.log("Saving product failed", error);
+		});
 	};
 
 	const handleBusinessModelChange = (event, businessModel) => {
-		if (event?.target.innerText === "") return;
-		const updatedBusinessModel = {
-			...businessModel,
-			name: event?.target.innerText,
+		const updatedProduct = {
+			...product,
+			businessModels: product.businessModels.map((businessModelItem) =>
+				businessModel.id === businessModelItem.id
+					? { id: businessModel.id, name: event?.target.innerText }
+					: businessModelItem
+			),
 		};
-		saveBusinessModel(updatedBusinessModel);
+		saveProduct(updatedProduct).catch((error) => {
+			console.log("Saving product failed", error);
+		});
 	};
 
 	const handleAddTlr = (event, id) => {
@@ -180,11 +189,9 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
 	saveProduct,
-	saveCategory,
 	addTrl,
 	addCategories,
 	addBusinessModel,
-	saveBusinessModel,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TabContent);
