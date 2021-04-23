@@ -1,16 +1,69 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { saveProduct } from "../../redux/actions/productActions";
+import {
+	saveProduct,
+	addCategories,
+	addBusinessModel,
+	saveBusinessModel,
+	saveCategory,
+} from "../../redux/actions/productActions";
+import { addTrl } from "../../redux/actions/trlActions";
 import "./TabContent.css";
 
-function TabContent({ product, saveProduct, trl, configuration }) {
+const processInput = (event, id) => {
+	const newObject = { id, name: event?.target.value };
+	event.target.value = "";
+	return newObject;
+};
+
+function TabContent({
+	product,
+	saveProduct,
+	addTrl,
+	saveCategory,
+	addCategories,
+	addBusinessModel,
+	saveBusinessModel,
+	trl,
+	configuration,
+}) {
 	const [isAttributeTab, setIsAttributeTab] = useState(false);
 
 	const handleDescriptionChange = (event) => {
-		product.description = event?.target.innerText;
-		saveProduct(product).catch((error) => {
+		const updatedProduct = { ...product, description: event?.target.innerText };
+		saveProduct(updatedProduct).catch((error) => {
 			console.log("Saving product failed", error);
 		});
+	};
+
+	const handleCategoryChange = (event, category) => {
+		if (event?.target.innerText === "") return;
+		const updatedCategory = { ...category, name: event?.target.innerText };
+		saveCategory(updatedCategory);
+	};
+
+	const handleBusinessModelChange = (event, businessModel) => {
+		if (event?.target.innerText === "") return;
+		const updatedBusinessModel = {
+			...businessModel,
+			name: event?.target.innerText,
+		};
+		saveBusinessModel(updatedBusinessModel);
+	};
+
+	const handleAddTlr = (event, id) => {
+		if (event?.target.value === "") return;
+		addTrl(processInput(event, id));
+	};
+
+	const handleAddCategories = (event, id) => {
+		if (event?.target.value === "") return;
+		addCategories(processInput(event, id));
+	};
+
+	const handleAddBusinessModel = (event, id) => {
+		if (event?.target.value === "") return;
+		addBusinessModel(processInput(event, id));
 	};
 
 	return (
@@ -53,27 +106,64 @@ function TabContent({ product, saveProduct, trl, configuration }) {
 						<strong>Categories</strong>
 						<ul className="description__attribute__list">
 							{product.categories?.map((category, index) => (
-								<li className="description__attribute__list__item" key={index}>
+								<li
+									className="description__attribute__list__item"
+									key={index}
+									contentEditable={true}
+									suppressContentEditableWarning={true}
+									onBlur={(event) => handleCategoryChange(event, category)}>
 									{category.name}
 								</li>
 							))}
+							Add Category:
+							<input
+								onBlur={(event) =>
+									handleAddCategories(event, product.categories.length + 1)
+								}
+								name="new-category"
+							/>
 						</ul>
 						<strong>Business Model</strong>
 						<ul className="description__attribute__list">
 							{product.businessModels?.map((singleBusinessModel, index) => (
-								<li className="description__attribute__list__item" key={index}>
+								<li
+									className="description__attribute__list__item"
+									key={index}
+									contentEditable={true}
+									suppressContentEditableWarning={true}
+									onBlur={(event) =>
+										handleBusinessModelChange(event, singleBusinessModel)
+									}>
 									{singleBusinessModel.name}
 								</li>
 							))}
+							Add Business Model:
+							<input
+								onBlur={(event) =>
+									handleAddBusinessModel(
+										event,
+										product.businessModels.length + 1
+									)
+								}
+								name="new-businessModel"
+							/>
 						</ul>
-						<strong>TRL</strong>
-						<ul className="description__attribute__list">
+						<select className="description__attribute__list">
 							{trl?.map((singleTrl, index) => (
-								<li className="description__attribute__list__item" key={index}>
+								<option
+									className="description__attribute__list__item"
+									key={index}
+									value={singleTrl.name}>
 									{singleTrl.name}
-								</li>
+								</option>
 							))}
-						</ul>
+						</select>
+						<br />
+						Add TRL:{" "}
+						<input
+							onBlur={(event) => handleAddTlr(event, trl.length + 1)}
+							name="new-trl"
+						/>
 					</>
 				)}
 			</div>
@@ -90,6 +180,11 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
 	saveProduct,
+	saveCategory,
+	addTrl,
+	addCategories,
+	addBusinessModel,
+	saveBusinessModel,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TabContent);

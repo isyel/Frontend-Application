@@ -3,11 +3,8 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import "./ProductPage.css";
 
-import {
-	getProduct,
-	saveProduct,
-	getTrl,
-} from "../../redux/actions/productActions";
+import { getProduct, saveProduct } from "../../redux/actions/productActions";
+import { getTrl } from "../../redux/actions/trlActions";
 import TabContent from "../tabs/TabContent";
 import MapLocation from "../map-location/MapLocation";
 
@@ -77,8 +74,7 @@ function ProductPage({
 							className="user-info__image"
 						/>
 						<h5>
-							{" "}
-							{product.user?.firstName} {product.user?.lastName}{" "}
+							{product.user?.firstName} {product.user?.lastName}
 						</h5>
 						<p>{product.user?.email}</p>
 						<p>{product.user?.position}</p>

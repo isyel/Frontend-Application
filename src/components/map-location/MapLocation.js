@@ -4,7 +4,6 @@ import LocationPin from "./LocationPin";
 import "./MapLocation.css";
 
 function MapLocation({ location, zoomLevel }) {
-	console.log("Location: ", location);
 	return (
 		<div className="map">
 			<h2 className="map-h2">Come Visit Us At Our Office</h2>

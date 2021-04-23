@@ -26,6 +26,9 @@
 
 .product__detail__category {
 	padding-bottom: 30px;
+	display: flex;
+	justify-content: flex-start;
+	flex-flow: wrap;
 }
 
 .product__detail__category > .product-category {

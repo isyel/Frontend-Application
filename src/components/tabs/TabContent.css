@@ -22,7 +22,7 @@ div.active {
 }
 
 .description__attribute {
-	padding: 10px 15px;
+	padding: 15px 15px 30px;
 }
 
 @media screen and (max-width: 480px) {
