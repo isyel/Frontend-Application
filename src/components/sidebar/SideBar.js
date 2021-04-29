@@ -21,7 +21,6 @@ function SideBar() {
 				className="navigation__link">
 				Product
 			</NavLink>
-			{" | "}
 		</div>
 	);
 }

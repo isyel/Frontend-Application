@@ -6,10 +6,11 @@ import {
 	addBusinessModel,
 } from "../../redux/actions/productActions";
 import { addTrl } from "../../redux/actions/trlActions";
+import AttributesComponent from "../attributes/AttributesComponent";
 import "./TabContent.css";
 
 const processInput = (event, id) => {
-	const newObject = { id, name: event?.target.value };
+	const newObject = { id, name: event?.target?.value };
 	event.target.value = "";
 	return newObject;
 };
@@ -26,7 +27,10 @@ function TabContent({
 	const [isAttributeTab, setIsAttributeTab] = useState(false);
 
 	const handleDescriptionChange = (event) => {
-		const updatedProduct = { ...product, description: event?.target.innerText };
+		const updatedProduct = {
+			...product,
+			description: event?.target?.innerText,
+		};
 		saveProduct(updatedProduct).catch((error) => {
 			console.log("Saving product failed", error);
 		});
@@ -35,9 +39,9 @@ function TabContent({
 	const handleCategoryChange = (event, category) => {
 		const updatedProduct = {
 			...product,
-			categories: product.categories.map((categoryItem) =>
+			categories: product.categories?.map((categoryItem) =>
 				category.id === categoryItem.id
-					? { id: category.id, name: event?.target.innerText }
+					? { id: category.id, name: event?.target?.innerText }
 					: categoryItem
 			),
 		};
@@ -49,9 +53,9 @@ function TabContent({
 	const handleBusinessModelChange = (event, businessModel) => {
 		const updatedProduct = {
 			...product,
-			businessModels: product.businessModels.map((businessModelItem) =>
+			businessModels: product.businessModels?.map((businessModelItem) =>
 				businessModel.id === businessModelItem.id
-					? { id: businessModel.id, name: event?.target.innerText }
+					? { id: businessModel.id, name: event?.target?.innerText }
 					: businessModelItem
 			),
 		};
@@ -111,69 +115,15 @@ function TabContent({
 					</div>
 				)}
 				{isAttributeTab && trl && (
-					<>
-						<strong>Categories</strong>
-						<ul className="description__attribute__list">
-							{product.categories?.map((category, index) => (
-								<li
-									className="description__attribute__list__item"
-									key={index}
-									contentEditable={true}
-									suppressContentEditableWarning={true}
-									onBlur={(event) => handleCategoryChange(event, category)}>
-									{category.name}
-								</li>
-							))}
-							Add Category:
-							<input
-								onBlur={(event) =>
-									handleAddCategories(event, product.categories.length + 1)
-								}
-								name="new-category"
-							/>
-						</ul>
-						<strong>Business Model</strong>
-						<ul className="description__attribute__list">
-							{product.businessModels?.map((singleBusinessModel, index) => (
-								<li
-									className="description__attribute__list__item"
-									key={index}
-									contentEditable={true}
-									suppressContentEditableWarning={true}
-									onBlur={(event) =>
-										handleBusinessModelChange(event, singleBusinessModel)
-									}>
-									{singleBusinessModel.name}
-								</li>
-							))}
-							Add Business Model:
-							<input
-								onBlur={(event) =>
-									handleAddBusinessModel(
-										event,
-										product.businessModels.length + 1
-									)
-								}
-								name="new-businessModel"
-							/>
-						</ul>
-						<select className="description__attribute__list">
-							{trl?.map((singleTrl, index) => (
-								<option
-									className="description__attribute__list__item"
-									key={index}
-									value={singleTrl.name}>
-									{singleTrl.name}
-								</option>
-							))}
-						</select>
-						<br />
-						Add TRL:{" "}
-						<input
-							onBlur={(event) => handleAddTlr(event, trl.length + 1)}
-							name="new-trl"
-						/>
-					</>
+					<AttributesComponent
+						product={product}
+						trl={trl}
+						handleCategoryChange={handleCategoryChange}
+						handleBusinessModelChange={handleBusinessModelChange}
+						handleAddTlr={handleAddTlr}
+						handleAddCategories={handleAddCategories}
+						handleAddBusinessModel={handleAddBusinessModel}
+					/>
 				)}
 			</div>
 		</div>

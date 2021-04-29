@@ -5,8 +5,8 @@ import "./ProductPage.css";
 
 import { getProduct, saveProduct } from "../../redux/actions/productActions";
 import { getTrl } from "../../redux/actions/trlActions";
-import TabContent from "../tabs/TabContent";
-import MapLocation from "../map-location/MapLocation";
+import MapLocation from "../../components/map-location/MapLocation";
+import TabContent from "../../components/tabs/TabContent";
 
 function ProductPage({
 	product,
@@ -30,11 +30,10 @@ function ProductPage({
 
 	useEffect(() => {
 		if (product) {
-			console.log("Product here");
 			setLocation({
-				address: product.company.name,
-				lat: +product.company.address.latitude,
-				lng: +product.company.address.longitude,
+				address: product.company?.name,
+				lat: +product.company?.address?.latitude,
+				lng: +product.company?.address?.longitude,
 			});
 		}
 	}, [product]);

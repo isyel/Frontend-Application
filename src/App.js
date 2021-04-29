@@ -1,9 +1,9 @@
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
-import HomePage from "./components/home/HomePage";
+import HomePage from "./pages/home/HomePage";
 import Navigation from "./components/navigation/Navigation";
-import PageNotFound from "./components/PageNotFound";
-import ProductPage from "./components/product/ProductPage";
+import PageNotFound from "./pages/PageNotFound";
+import ProductPage from "./pages/product/ProductPage";
 
 function App() {
 	return (
